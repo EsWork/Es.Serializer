@@ -25,8 +25,8 @@ namespace Es.Serializer
     /// </summary>
     public class XmlSerializer : ObjectSerializerBase
     {
-        private static readonly XmlWriterSettings XWSettings = new XmlWriterSettings();
-        private static readonly XmlReaderSettings XRSettings = new XmlReaderSettings();
+        private readonly XmlWriterSettings XWSettings = new XmlWriterSettings();
+        private readonly XmlReaderSettings XRSettings = new XmlReaderSettings();
 
         /// <summary>
         /// XmlSerializer Instance

@@ -14,6 +14,7 @@
  * */
 
 using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -142,18 +143,13 @@ namespace Es.Serializer
         /// <returns>System.String.</returns>
         public virtual string SerializeToString(object value)
         {
-            using (var ms = new MemoryStream())
+            StringBuilder sb = new StringBuilder(256);
+
+            using (StringWriter writer = new StringWriter(sb, CultureInfo.InvariantCulture))
             {
-                using (StreamWriter writer = new StreamWriter(ms))
-                {
-                    SerializeCore(value, writer);
-
-                    writer.Flush();
-
-                    ms.Seek(0, SeekOrigin.Begin);
-                    var reader = new StreamReader(ms);
-                    return reader.ReadToEnd();
-                }
+                SerializeCore(value, writer);
+                writer.Flush();
+                return writer.ToString();
             }
         }
 
