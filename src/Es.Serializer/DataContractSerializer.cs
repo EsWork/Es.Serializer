@@ -1,21 +1,6 @@
-﻿// ==++==
-//
-//  Copyright (c) . All rights reserved.
-//
-// ==--==
-/* ---------------------------------------------------------------------------
- *
- * Author			: v.la
- * Email			: v.la@live.cn
- * Created			: 2015-08-31
- * Class			: DataContractSerializer.cs
- *
- * ---------------------------------------------------------------------------
- * */
-#if NETFULL || NETSTANDARD2_0
+﻿
 using System;
 using System.IO;
-using System.Runtime.Serialization;
 
 namespace Es.Serializer
 {
@@ -104,4 +89,3 @@ namespace Es.Serializer
         }
     }
 }
-#endif

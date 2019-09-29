@@ -1,17 +1,4 @@
-﻿// ==++==
-//
-//  Copyright (c) . All rights reserved.
-//
-// ==--==
-/* ---------------------------------------------------------------------------
- *
- * Author			: v.la
- * Email			: v.la@live.cn
- * Created			: 2015-08-31
- * Class			: SerializerFactory.cs
- *
- * ---------------------------------------------------------------------------
- * */
+﻿
 
 using System;
 using System.Collections.Generic;
@@ -36,11 +23,11 @@ namespace Es.Serializer
         {
             _objectSerializerCache = new Dictionary<string, ObjectSerializerBase>(StringComparer.OrdinalIgnoreCase);
 
-#if NETFULL || NETSTANDARD2_0
+
             _objectSerializerCache["binary"] = BinarySerializer.Instance;          
             _objectSerializerCache["DataContract"] = DataContractSerializer.Instance;
             _objectSerializerCache["dc"] = DataContractSerializer.Instance;
-#endif
+
 
 #if NETFULL
             _objectSerializerCache["soap"] = SoapSerializer.Instance;

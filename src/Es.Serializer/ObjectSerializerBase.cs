@@ -1,17 +1,4 @@
-﻿// ==++==
-//
-//  Copyright (c) . All rights reserved.
-//
-// ==--==
-/* ---------------------------------------------------------------------------
- *
- * Author			: v.la
- * Email			: v.la@live.cn
- * Created			: 2015-08-27
- * Class			: ObjectSerializerBase.cs
- *
- * ---------------------------------------------------------------------------
- * */
+﻿
 
 using System;
 using System.Globalization;
@@ -75,11 +62,8 @@ namespace Es.Serializer
         /// <returns>System.Object.</returns>
         public virtual object Deserialize(Stream stream, Type type)
         {
-#if NET40
-            using (StreamReader reader = new StreamReader(stream, Encoding, true, bufferSize))
-#else
+
             using (StreamReader reader = new StreamReader(stream, Encoding, true, bufferSize, true))
-#endif
                 return Deserialize(reader, type);
         }
 
@@ -114,11 +98,7 @@ namespace Es.Serializer
         /// <param name="output">The output.</param>
         public virtual void Serialize(object value, Stream output)
         {
-#if NET40
-            using (StreamWriter sw = new StreamWriter(output, Encoding, bufferSize))
-#else
             using (StreamWriter sw = new StreamWriter(output, Encoding, bufferSize, true))
-#endif
                 Serialize(value, sw);
         }
 
