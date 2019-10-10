@@ -26,7 +26,7 @@ namespace Es.Serializer
 
         public JsonNetSerializer(JsonSerializerSettings setting)
         {
-            _setting = setting;
+            _setting = setting ?? throw new ArgumentNullException(nameof(setting));
         }
 
         public JsonNetSerializer(Formatting format = Formatting.None) : this(new JsonSerializerSettings

@@ -14,7 +14,7 @@ namespace Es.Serializer
 
         public JilSerializer(Jil.Options options)
         {
-            _options = options;
+            _options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
         public JilSerializer() : this(new Jil.Options(
