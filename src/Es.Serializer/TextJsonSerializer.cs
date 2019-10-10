@@ -11,7 +11,13 @@ namespace Es.Serializer
     /// </summary>
     public class TextJsonSerializer : SerializerBase
     {
-        private readonly JsonSerializerOptions _options;
+        /// <summary>
+        /// TextJsonSerializer Instance
+        /// </summary>
+        public static TextJsonSerializer Instance = new TextJsonSerializer();
+
+        private readonly JsonSerializerOptions _deserializeOptions;
+        private readonly JsonSerializerOptions _serializeOptions;
 
         /// <summary>
         /// TextJsonSerializer
@@ -20,6 +26,7 @@ namespace Es.Serializer
         {
             WriteIndented = false,
             IgnoreNullValues = true,
+            AllowTrailingCommas = true,
             PropertyNameCaseInsensitive = true,
             ReadCommentHandling = JsonCommentHandling.Skip,
             Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
@@ -30,9 +37,20 @@ namespace Es.Serializer
         /// <summary>
         /// TextJsonSerializer
         /// </summary>
-        public TextJsonSerializer(JsonSerializerOptions options)
+        /// <param name="options"></param>
+        public TextJsonSerializer(JsonSerializerOptions options) : this(options, options)
         {
-            _options = options ?? throw new ArgumentNullException(nameof(options));
+        }
+
+        /// <summary>
+        /// TextJsonSerializer
+        /// </summary>
+        /// <param name="serializeOptions"></param>
+        /// <param name="deserializeOptions"></param>
+        public TextJsonSerializer(JsonSerializerOptions serializeOptions, JsonSerializerOptions deserializeOptions)
+        {
+            _serializeOptions = serializeOptions ?? throw new ArgumentNullException(nameof(serializeOptions));
+            _deserializeOptions = deserializeOptions ?? throw new ArgumentNullException(nameof(deserializeOptions));
         }
 
         public override object Deserialize(TextReader reader, Type type)
@@ -51,12 +69,12 @@ namespace Es.Serializer
 
         public override object Deserialize(byte[] data, Type type)
         {
-            return JsonSerializer.Deserialize(data, type, _options);
+            return JsonSerializer.Deserialize(data, type, _deserializeOptions);
         }
 
         public override object DeserializeFromString(string serializedText, Type type)
         {
-            return JsonSerializer.Deserialize(serializedText, type, _options);
+            return JsonSerializer.Deserialize(serializedText, type, _deserializeOptions);
         }
 
         public override void Serialize(object value, TextWriter writer)
@@ -68,18 +86,18 @@ namespace Es.Serializer
         {
             using (var writer = new Utf8JsonWriter(output))
             {
-                JsonSerializer.Serialize(writer, value, value.GetType(), _options);
+                JsonSerializer.Serialize(writer, value, value.GetType(), _serializeOptions);
             }
         }
 
         public override void Serialize(object value, out byte[] output)
         {
-            output = JsonSerializer.SerializeToUtf8Bytes(value, _options);
+            output = JsonSerializer.SerializeToUtf8Bytes(value, _serializeOptions);
         }
 
         public override string SerializeToString(object value)
         {
-            return JsonSerializer.Serialize(value, _options);
+            return JsonSerializer.Serialize(value, _serializeOptions);
         }
     }
 }
