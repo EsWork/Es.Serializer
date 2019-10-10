@@ -8,7 +8,8 @@ namespace SerializerTest
     public class CompressionTest
     {
         [Fact]
-        public void Can_Compression() {
+        public void Can_Compression()
+        {
             var serialize = new JsonNetSerializer();
 
             var foo = TestHelper.GetFoo();

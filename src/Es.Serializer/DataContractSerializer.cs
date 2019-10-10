@@ -1,13 +1,13 @@
-﻿
-using System;
+﻿using System;
 using System.IO;
+using DCS = System.Runtime.Serialization.DataContractSerializer;
 
 namespace Es.Serializer
 {
     /// <summary>
     /// Class DataContractSerializer.
     /// </summary>
-    public class DataContractSerializer : ObjectSerializerBase
+    public class DataContractSerializer : SerializerBase
     {
         /// <summary>
         /// DataContractSerializer Instance
@@ -15,14 +15,15 @@ namespace Es.Serializer
         public static DataContractSerializer Instance = new DataContractSerializer();
 
         /// <summary>
-        /// Serializes the specified value.
+        /// Deserializes the specified type.
         /// </summary>
-        /// <param name="value">The value.</param>
-        /// <param name="output">The output.</param>
-        public override void Serialize(object value, Stream output)
+        /// <param name="reader">The reader.</param>
+        /// <param name="type">The type.</param>
+        /// <returns>System.Object.</returns>
+        public override object Deserialize(TextReader reader, Type type)
         {
-            System.Runtime.Serialization.DataContractSerializer serializer = new System.Runtime.Serialization.DataContractSerializer(value.GetType());
-            serializer.WriteObject(output, value);
+            var hex = reader.ReadToEnd();
+            return DeserializeFromString(hex, type);
         }
 
         /// <summary>
@@ -33,8 +34,57 @@ namespace Es.Serializer
         /// <returns>System.Object.</returns>
         public override object Deserialize(Stream stream, Type type)
         {
-            System.Runtime.Serialization.DataContractSerializer serializer = new System.Runtime.Serialization.DataContractSerializer(type);
+            DCS serializer = new DCS(type);
             return serializer.ReadObject(stream);
+        }
+
+        /// <summary>
+        /// Deserializes the specified type.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="type">The type.</param>
+        /// <returns>System.Object.</returns>
+        public override object Deserialize(byte[] data, Type type)
+        {
+            using (var mem = new MemoryStream(data))
+            {
+                return Deserialize(mem, type);
+            }
+        }
+
+        /// <summary>
+        /// Serializes the specified value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="writer">The writer.</param>
+        public override void Serialize(object value, TextWriter writer)
+        {
+            writer.Write(SerializeToString(value));
+        }
+
+        /// <summary>
+        /// Serializes the specified value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="output">The output.</param>
+        public override void Serialize(object value, Stream output)
+        {
+            DCS serializer = new DCS(value.GetType());
+            serializer.WriteObject(output, value);
+        }
+
+        /// <summary>
+        /// Serializes the specified value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="output">The output.</param>
+        public override void Serialize(object value, out byte[] output)
+        {
+            using (var mem = new MemoryStream())
+            {
+                Serialize(value, mem);
+                output = mem.ToArray();
+            }
         }
 
         /// <summary>
@@ -64,28 +114,6 @@ namespace Es.Serializer
             {
                 return Deserialize(mem, type);
             }
-        }
-
-        /// <summary>
-        /// Serializes the core.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <param name="writer">The writer.</param>
-        protected override void SerializeCore(object value, TextWriter writer)
-        {
-            writer.Write(SerializeToString(value));
-        }
-
-        /// <summary>
-        /// Deserializes the core.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="type">The type.</param>
-        /// <returns>System.Object.</returns>
-        protected override object DeserializeCore(TextReader reader, Type type)
-        {
-            var serializedText = reader.ReadToEnd();
-            return DeserializeFromString(serializedText, type);
         }
     }
 }

@@ -24,8 +24,8 @@ namespace PerformanceTest
             {"Jil",new CallAct()},
             {"Binary",new CallAct()},
             {"DataContract",new CallAct()},
-        #if NETFULL
             {"NET",new CallAct()},
+        #if NETFULL
             {"Soap",new CallAct()},
            
         #endif
@@ -37,6 +37,7 @@ namespace PerformanceTest
         private DataContractSerializer datacontractserializer = new DataContractSerializer();
 
 #endif
+
 #if NETFULL
         SoapSerializer soapserializer = new SoapSerializer();
 #endif
@@ -108,17 +109,19 @@ namespace PerformanceTest
 #endif
 
 #if NETFULL
-            var netserializer = SerializerFactory.Get("NET");
-            using (MemoryStream mem = new MemoryStream())
-            {
-                netserializer.Serialize(obj, mem);
-            }
+
             using (MemoryStream mem = new MemoryStream())
             {
                 soapserializer.Serialize(obj, mem);
             }
 
 #endif
+
+            var netserializer = SerializerFactory.Get("NET");
+            using (MemoryStream mem = new MemoryStream())
+            {
+                netserializer.Serialize(obj, mem);
+            }
 
             jsonnetserializer.SerializeToString(obj);
             using (MemoryStream mem = new MemoryStream())
@@ -166,17 +169,7 @@ namespace PerformanceTest
 
 #if NETFULL
 
-            serializer["NET"].Act = () =>
-            {
-                GC.Collect(2, GCCollectionMode.Forced, blocking: true);
-                serializer["NET"].Score = Helper.AverageRuntime(() =>
-                {
-                    using (MemoryStream mem = new MemoryStream())
-                    {
-                        netserializer.Serialize(obj, mem);
-                    }
-                }, runs);
-            };
+
 
             serializer["Soap"].Act = () =>
             {
@@ -191,6 +184,18 @@ namespace PerformanceTest
             };
 
 #endif
+
+            serializer["NET"].Act = () =>
+            {
+                GC.Collect(2, GCCollectionMode.Forced, blocking: true);
+                serializer["NET"].Score = Helper.AverageRuntime(() =>
+                {
+                    using (MemoryStream mem = new MemoryStream())
+                    {
+                        netserializer.Serialize(obj, mem);
+                    }
+                }, runs);
+            };
 
             serializer["Json"].Act = () =>
             {
@@ -253,19 +258,19 @@ namespace PerformanceTest
 
 #if NETFULL
 
-            var netserializer = SerializerFactory.Get("NET");
-            using (MemoryStream mem = new MemoryStream())
-            {
-                netserializer.Serialize(obj, mem);
-                netData = mem.ToArray();
-            }
-
             using (MemoryStream mem = new MemoryStream())
             {
                 soapserializer.Serialize(obj, mem);
                 soapData = mem.ToArray();
             }
 #endif
+
+            var netserializer = SerializerFactory.Get("NET");
+            using (MemoryStream mem = new MemoryStream())
+            {
+                netserializer.Serialize(obj, mem);
+                netData = mem.ToArray();
+            }
 
             var jsonnetSerializedText = jsonnetserializer.SerializeToString(obj);
             var xmlSerializedText = xmlserializer.SerializeToString(obj);
@@ -313,17 +318,7 @@ namespace PerformanceTest
 #endif
 
 #if NETFULL
-            serializer["NET"].Act = () =>
-            {
-                GC.Collect(2, GCCollectionMode.Forced, blocking: true);
-                serializer["NET"].Score = Helper.AverageRuntime(() =>
-                {
-                    using (MemoryStream mem = new MemoryStream(netData))
-                    {
-                        netserializer.Deserialize(mem, objType);
-                    }
-                }, runs);
-            };
+
             serializer["Soap"].Act = () =>
             {
                 GC.Collect(2, GCCollectionMode.Forced, blocking: true);
@@ -336,6 +331,18 @@ namespace PerformanceTest
                 }, runs);
             };
 #endif
+
+            serializer["NET"].Act = () =>
+            {
+                GC.Collect(2, GCCollectionMode.Forced, blocking: true);
+                serializer["NET"].Score = Helper.AverageRuntime(() =>
+                {
+                    using (MemoryStream mem = new MemoryStream(netData))
+                    {
+                        netserializer.Deserialize(mem, objType);
+                    }
+                }, runs);
+            };
 
             serializer["Json"].Act = () =>
             {

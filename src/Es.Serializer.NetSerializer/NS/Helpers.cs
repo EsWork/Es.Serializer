@@ -38,7 +38,7 @@ namespace NetSerializer
 			}
 		}
 
-		public static DynamicMethod GenerateDynamicSerializerStub(Type type)
+	public static DynamicMethod GenerateDynamicSerializerStub(Type type)
 		{
 			var dm = new DynamicMethod("Serialize", null,
 				new Type[] { typeof(Serializer), typeof(Stream), type },

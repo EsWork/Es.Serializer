@@ -1,17 +1,13 @@
-﻿
-
-using System;
-using System.Globalization;
+﻿using System;
 using System.IO;
 using System.Text;
 
 namespace Es.Serializer
 {
     /// <summary>
-    /// Class ObjectSerializerBase.
+    /// The serializer abstract class
     /// </summary>
-    [Obsolete("This type is obsolete and please use SerializerBase")]
-    public abstract class ObjectSerializerBase : IObjectSerializer, IStringSerializer
+    public abstract class SerializerBase : IObjectSerializer, IStringSerializer
     {
         private static readonly byte[] HexTable =
         {
@@ -19,30 +15,11 @@ namespace Es.Serializer
             (byte)'8', (byte)'9', (byte)'a', (byte)'b', (byte)'c', (byte)'d', (byte)'e', (byte)'f'
         };
 
-        /// <summary>
-        /// The buffer size
-        /// </summary>
-        private const int bufferSize = 1024;
 
         /// <summary>
-        /// The encoding
+        /// The encoding-UTF8
         /// </summary>
         protected readonly Encoding Encoding = Encoding.UTF8;
-
-        /// <summary>
-        /// Serializes the core.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <param name="writer">The writer.</param>
-        protected abstract void SerializeCore(object value, TextWriter writer);
-
-        /// <summary>
-        /// Deserializes the core.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="type">The type.</param>
-        /// <returns>System.Object.</returns>
-        protected abstract object DeserializeCore(TextReader reader, Type type);
 
         /// <summary>
         /// Deserializes the specified type.
@@ -50,10 +27,7 @@ namespace Es.Serializer
         /// <param name="reader">The reader.</param>
         /// <param name="type">The type.</param>
         /// <returns>System.Object.</returns>
-        public object Deserialize(TextReader reader, Type type)
-        {
-            return DeserializeCore(reader, type);
-        }
+        public abstract object Deserialize(TextReader reader, Type type);
 
         /// <summary>
         /// Deserializes the specified type.
@@ -61,12 +35,7 @@ namespace Es.Serializer
         /// <param name="stream">The stream.</param>
         /// <param name="type">The type.</param>
         /// <returns>System.Object.</returns>
-        public virtual object Deserialize(Stream stream, Type type)
-        {
-
-            using (StreamReader reader = new StreamReader(stream, Encoding, true, bufferSize, true))
-                return Deserialize(reader, type);
-        }
+        public abstract object Deserialize(Stream stream, Type type);
 
         /// <summary>
         /// Deserializes the specified type.
@@ -74,65 +43,35 @@ namespace Es.Serializer
         /// <param name="data">The data.</param>
         /// <param name="type">The type.</param>
         /// <returns>System.Object.</returns>
-        public virtual object Deserialize(byte[] data, Type type)
-        {
-            using (var mem = new MemoryStream(data))
-            {
-                return Deserialize(mem, type);
-            }
-        }
+        public abstract object Deserialize(byte[] data, Type type);
 
         /// <summary>
         /// Serializes the specified value.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="writer">The writer.</param>
-        public void Serialize(object value, TextWriter writer)
-        {
-            SerializeCore(value, writer);
-        }
+        public abstract void Serialize(object value, TextWriter writer);
 
         /// <summary>
         /// Serializes the specified value.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="output">The output.</param>
-        public virtual void Serialize(object value, Stream output)
-        {
-            using (StreamWriter sw = new StreamWriter(output, Encoding, bufferSize, true))
-                Serialize(value, sw);
-        }
+        public abstract void Serialize(object value, Stream output);
 
         /// <summary>
         /// Serializes the specified value.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="output">The output.</param>
-        public virtual void Serialize(object value, out byte[] output)
-        {
-            using (var mem = new MemoryStream())
-            {
-                Serialize(value, mem);
-                output = mem.ToArray();
-            }
-        }
+        public abstract void Serialize(object value, out byte[] output);
 
         /// <summary>
         /// Serializes to string.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>System.String.</returns>
-        public virtual string SerializeToString(object value)
-        {
-            StringBuilder sb = new StringBuilder(256);
-
-            using (StringWriter writer = new StringWriter(sb, CultureInfo.InvariantCulture))
-            {
-                SerializeCore(value, writer);
-                writer.Flush();
-                return writer.ToString();
-            }
-        }
+        public abstract string SerializeToString(object value);
 
         /// <summary>
         /// Deserializes from string.
@@ -140,14 +79,7 @@ namespace Es.Serializer
         /// <param name="serializedText">The serialized text.</param>
         /// <param name="type">The type.</param>
         /// <returns>System.Object.</returns>
-        public virtual object DeserializeFromString(string serializedText, Type type)
-        {
-            using (StringReader reader = new StringReader(serializedText))
-            {
-                return DeserializeCore(reader, type);
-            }
-        }
-
+        public abstract object DeserializeFromString(string serializedText, Type type);
 
         /// <summary>
         /// To the hexadecimal.
@@ -168,7 +100,6 @@ namespace Es.Serializer
 
             return new string(hex);
         }
-
 
         /// <summary>
         /// Froms the hexadecimal.

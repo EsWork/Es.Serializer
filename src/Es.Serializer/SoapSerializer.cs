@@ -1,19 +1,4 @@
-﻿// ==++== 
-//
-//  Copyright (c) . All rights reserved.
-//
-// ==--== 
-/* ---------------------------------------------------------------------------
- *
- * Author			: v.la 
- * Email			: v.la@live.cn
- * Created			: 2015-08-31
- * Class			: SoapSerializer.cs
- *
- * ---------------------------------------------------------------------------
- * */
-
-#if NETFULL
+﻿#if NETFULL
 
 using System;
 using System.IO;
@@ -25,7 +10,7 @@ namespace Es.Serializer
     /// <summary>
     /// Class SoapSerializer.
     /// </summary>
-    public class SoapSerializer : ObjectSerializerBase
+    public class SoapSerializer : SerializerBase
     {
         /// <summary>
         /// SoapSerializer Instance
@@ -38,12 +23,15 @@ namespace Es.Serializer
         private readonly IFormatter binaryFormatter = new SoapFormatter();
 
         /// <summary>
-        /// Serializes the specified value.
+        /// Deserializes the specified type.
         /// </summary>
-        /// <param name="value">The value.</param>
-        /// <param name="output">The output.</param>
-        public override void Serialize(object value, Stream output) {
-            binaryFormatter.Serialize(output, value);
+        /// <param name="reader">The reader.</param>
+        /// <param name="type">The type.</param>
+        /// <returns>System.Object.</returns>
+        public override object Deserialize(TextReader reader, Type type)
+        {
+            var hex = reader.ReadToEnd();
+            return DeserializeFromString(hex, type);
         }
 
         /// <summary>
@@ -52,8 +40,57 @@ namespace Es.Serializer
         /// <param name="stream">The stream.</param>
         /// <param name="type">The type.</param>
         /// <returns>System.Object.</returns>
-        public override object Deserialize(Stream stream, Type type) {
+        public override object Deserialize(Stream stream, Type type)
+        {
             return binaryFormatter.Deserialize(stream);
+        }
+
+        /// <summary>
+        /// Deserializes the specified type.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <param name="type">The type.</param>
+        /// <returns>System.Object.</returns>
+        public override object Deserialize(byte[] data, Type type)
+        {
+            using (var mem = new MemoryStream(data))
+            {
+                return Deserialize(mem, type);
+            }
+        }
+
+        /// <summary>
+        /// Serializes the specified value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="writer">The writer.</param>
+        public override void Serialize(object value, TextWriter writer)
+        {
+            writer.Write(SerializeToString(value));
+        }
+
+        /// <summary>
+        /// Serializes the specified value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="output">The output.</param>
+        public override void Serialize(object value, Stream output)
+        {
+            binaryFormatter.Serialize(output, value);
+        }
+
+        /// <summary>
+        /// Serializes the specified value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="output">The output.</param>
+        public override void Serialize(object value, out byte[] output)
+        {
+            using (var mem = new MemoryStream())
+            {
+                Serialize(value, mem);
+                output = mem.ToArray();
+            }
         }
 
         /// <summary>
@@ -61,8 +98,10 @@ namespace Es.Serializer
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>System.String.</returns>
-        public override string SerializeToString(object value) {
-            using (MemoryStream mem = new MemoryStream()) {
+        public override string SerializeToString(object value)
+        {
+            using (MemoryStream mem = new MemoryStream())
+            {
                 Serialize(value, mem);
                 return Encoding.GetString(mem.ToArray());
             }
@@ -74,33 +113,15 @@ namespace Es.Serializer
         /// <param name="serializedText">The serialized text.</param>
         /// <param name="type">The type.</param>
         /// <returns>System.Object.</returns>
-        public override object DeserializeFromString(string serializedText, Type type) {
+        public override object DeserializeFromString(string serializedText, Type type)
+        {
             var data = Encoding.GetBytes(serializedText);
-            using (MemoryStream mem = new MemoryStream(data)) {
+            using (MemoryStream mem = new MemoryStream(data))
+            {
                 return Deserialize(mem, type);
             }
-        }
-
-        /// <summary>
-        /// Serializes the core.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <param name="writer">The writer.</param>
-        protected override void SerializeCore(object value, TextWriter writer) {
-            writer.Write(SerializeToString(value));
-        }
-
-        /// <summary>
-        /// Deserializes the core.
-        /// </summary>
-        /// <param name="reader">The reader.</param>
-        /// <param name="type">The type.</param>
-        /// <returns>System.Object.</returns>
-        protected override object DeserializeCore(TextReader reader, Type type) {
-            var serializedText = reader.ReadToEnd();
-            return DeserializeFromString(serializedText, type);
         }
     }
 }
 
- #endif
+#endif

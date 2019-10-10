@@ -8,7 +8,8 @@ namespace SerializerTest
     {
 #if NETFULL
         [Fact]
-        public void Can_Soap_Serializer_String() {
+        public void Can_Soap_Serializer_String()
+        {
             var bs = SerializerFactory.Get("soap");
 
             var foo1 = TestHelper.GetFoo();
@@ -17,11 +18,12 @@ namespace SerializerTest
 
             var foo2 = bs.DeserializeFromString<Foo>(str);
 
-            Assert.Equal(foo1.ToString(), foo2.ToString());
+            Assert.True(TestHelper.Equal(foo1, foo2));
         }
 
         [Fact]
-        public void Can_Soap_Serializer_Stream() {
+        public void Can_Soap_Serializer_Stream()
+        {
             var bs = SerializerFactory.Get("soap");
 
             var foo1 = TestHelper.GetFoo();
@@ -29,27 +31,29 @@ namespace SerializerTest
             bs.Serialize(foo1, output);
 
             output.Position = 0;
-            var foo2 = bs.Deserialize(output, typeof(Foo));
+            var foo2 = (Foo)bs.Deserialize(output, typeof(Foo));
 
             output.Dispose();
 
-            Assert.Equal(foo1.ToString(), foo2.ToString());
+            Assert.True(TestHelper.Equal(foo1, foo2));
         }
 
         [Fact]
-        public void Can_Soap_Serializer_Bytes() {
+        public void Can_Soap_Serializer_Bytes()
+        {
             var bs = SerializerFactory.Get("soap");
 
             var foo1 = TestHelper.GetFoo();
             byte[] output;
             bs.Serialize(foo1, out output);
 
-            var foo2 = bs.Deserialize(output, typeof(Foo));
-            Assert.Equal(foo1.ToString(), foo2.ToString());
+            var foo2 = (Foo)bs.Deserialize(output, typeof(Foo));
+            Assert.True(TestHelper.Equal(foo1, foo2));
         }
 
         [Fact]
-        public void Can_Soap_Serializer_Writer_And_Reader() {
+        public void Can_Soap_Serializer_Writer_And_Reader()
+        {
             var bs = SerializerFactory.Get("soap");
             var foo1 = TestHelper.GetFoo();
 
@@ -59,9 +63,9 @@ namespace SerializerTest
 
             StringReader sr = new StringReader(sw.ToString());
 
-            var foo2 = bs.Deserialize(sr, typeof(Foo));
+            var foo2 = (Foo)bs.Deserialize(sr, typeof(Foo));
 
-            Assert.Equal(foo1.ToString(), foo2.ToString());
+            Assert.True(TestHelper.Equal(foo1, foo2));
         }
 #endif
     }

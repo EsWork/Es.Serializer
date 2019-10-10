@@ -1,6 +1,4 @@
-﻿
-
-using System.IO;
+﻿using System.IO;
 
 namespace Es.Serializer
 {
@@ -16,7 +14,8 @@ namespace Es.Serializer
         /// <param name="self">The self.</param>
         /// <param name="stream">The stream.</param>
         /// <returns>T.</returns>
-        public static T Deserialize<T>(this ObjectSerializerBase self, Stream stream) {
+        public static T Deserialize<T>(this SerializerBase self, Stream stream)
+        {
             return (T)self.Deserialize(stream, typeof(T));
         }
 
@@ -27,7 +26,8 @@ namespace Es.Serializer
         /// <param name="self">The self.</param>
         /// <param name="data">The data.</param>
         /// <returns>To.</returns>
-        public static To Deserialize<To>(this IObjectSerializer self, byte[] data) {
+        public static To Deserialize<To>(this IObjectSerializer self, byte[] data)
+        {
             return (To)self.Deserialize(data, typeof(To));
         }
 
@@ -38,7 +38,8 @@ namespace Es.Serializer
         /// <param name="self">The self.</param>
         /// <param name="reader">The reader.</param>
         /// <returns>To.</returns>
-        public static To Deserialize<To>(this IObjectSerializer self, TextReader reader) {
+        public static To Deserialize<To>(this IObjectSerializer self, TextReader reader)
+        {
             return (To)self.Deserialize(reader, typeof(To));
         }
 
@@ -49,7 +50,8 @@ namespace Es.Serializer
         /// <param name="self">The self.</param>
         /// <param name="serializedText">The serialized text.</param>
         /// <returns>To.</returns>
-        public static To DeserializeFromString<To>(this ObjectSerializerBase self, string serializedText) {
+        public static To DeserializeFromString<To>(this SerializerBase self, string serializedText)
+        {
             return (To)self.DeserializeFromString(serializedText, typeof(To));
         }
 
@@ -60,8 +62,10 @@ namespace Es.Serializer
         /// <param name="self">The self.</param>
         /// <param name="obj">The object.</param>
         /// <returns>T.</returns>
-        public static T DeepClone<T>(this ObjectSerializerBase self, T obj) {
-            using (MemoryStream ms = new MemoryStream()) {
+        public static T DeepClone<T>(this SerializerBase self, T obj)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
                 self.Serialize(obj, ms);
                 ms.Seek(0, SeekOrigin.Begin);
                 return self.Deserialize<T>(ms);
@@ -74,8 +78,9 @@ namespace Es.Serializer
         /// <typeparam name="T"></typeparam>
         /// <param name="obj">The object.</param>
         /// <returns>T.</returns>
-        public static T DeepClone<T>(this T obj) {
-            return (T)XmlSerializer.Instance.DeepClone(obj);
+        public static T DeepClone<T>(this T obj)
+        {
+            return XmlSerializer.Instance.DeepClone(obj);
         }
 
         /// <summary>

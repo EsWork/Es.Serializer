@@ -4,12 +4,13 @@ using Xunit;
 
 namespace SerializerTest
 {
-#if NETFULL || NETCOREAPP2_0
+#if NETFULL || NETCOREAPP3_0
     public class BinarySerializerTest
     {
 
         [Fact]
-        public void Can_Binary_Serializer_String() {
+        public void Can_Binary_Serializer_String()
+        {
             var bs = SerializerFactory.Get("binary");
 
             var foo1 = TestHelper.GetFoo();
@@ -18,11 +19,12 @@ namespace SerializerTest
 
             var foo2 = bs.DeserializeFromString<Foo>(str);
 
-            Assert.Equal(foo1.ToString(), foo2.ToString());
+            Assert.True(TestHelper.Equal(foo1, foo2));
         }
 
         [Fact]
-        public void Can_Binary_Serializer_Stream() {
+        public void Can_Binary_Serializer_Stream()
+        {
             var bs = SerializerFactory.Get("binary");
 
             var foo1 = TestHelper.GetFoo();
@@ -34,11 +36,12 @@ namespace SerializerTest
 
             output.Dispose();
 
-            Assert.Equal(foo1.ToString(), foo2.ToString());
+            Assert.True(TestHelper.Equal(foo1, foo2));
         }
 
         [Fact]
-        public void Can_Binary_Serializer_Bytes() {
+        public void Can_Binary_Serializer_Bytes()
+        {
             var bs = SerializerFactory.Get("binary");
 
             var foo1 = TestHelper.GetFoo();
@@ -46,11 +49,12 @@ namespace SerializerTest
             bs.Serialize(foo1, out output);
 
             var foo2 = bs.Deserialize<Foo>(output);
-            Assert.Equal(foo1.ToString(), foo2.ToString());
+            Assert.True(TestHelper.Equal(foo1, foo2));
         }
 
         [Fact]
-        public void Can_Binary_Serializer_Writer_And_Reader() {
+        public void Can_Binary_Serializer_Writer_And_Reader()
+        {
             var bs = SerializerFactory.Get("binary");
             var foo1 = TestHelper.GetFoo();
 
@@ -62,7 +66,7 @@ namespace SerializerTest
 
             var foo2 = bs.Deserialize<Foo>(sr);
 
-            Assert.Equal(foo1.ToString(), foo2.ToString());
+            Assert.True(TestHelper.Equal(foo1, foo2));
         }
     }
 #endif
