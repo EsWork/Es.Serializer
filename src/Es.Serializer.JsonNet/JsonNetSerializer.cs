@@ -31,7 +31,7 @@ namespace Es.Serializer
 
         public JsonNetSerializer(Formatting format = Formatting.None) : this(new JsonSerializerSettings
         {
-            Converters = new JsonConverter[] { new IsoDateTimeConverter { DateTimeFormat = "yyyy'-'MM'-'dd' 'HH':'mm':'ss" } },
+            Converters = new JsonConverter[] { new IsoDateTimeConverter() },
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             NullValueHandling = NullValueHandling.Ignore,
             Formatting = format
