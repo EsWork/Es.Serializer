@@ -7,11 +7,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <PackageId>Es.Serializer.Jil</PackageId>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Jil\**" />
-    <EmbeddedResource Remove="Jil\**" />
-    <None Remove="Jil\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Es.Serializer\Es.Serializer.csproj" />
@@ -25,7 +20,7 @@
 
 
   <ItemGroup Condition="'$(TargetFramework)' != 'net45'  ">
-    <PackageReference Include="Jil.StrongName" Version="3.0.0-alpha" />
+    <PackageReference Include="Jil.StrongName" Version="2.17.0" />
     <PackageReference Include="Sigil" Version="5.0.0" />
   </ItemGroup>
 
