@@ -59,4 +59,4 @@ artifacts/
 node_modules/*
 nuget.exe
 .nuget/
-/src/BenchmarkTest
+/src/BenchmarkTest/BenchmarkDotNet.Artifacts

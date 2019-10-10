@@ -19,6 +19,7 @@ namespace PerformanceTest
         private Dictionary<string, CallAct> serializer = new Dictionary<string, CallAct>(StringComparer.OrdinalIgnoreCase)
         {
             {"Json",new CallAct()},
+            {"TextJson",new CallAct()},
             {"Protobuf",new CallAct()},
             {"Xml",new CallAct()},
             {"Jil",new CallAct()},
@@ -43,6 +44,7 @@ namespace PerformanceTest
 #endif
 
         private JsonNetSerializer jsonnetserializer = new JsonNetSerializer();
+        private TextJsonSerializer textjsonserializer = new TextJsonSerializer();
         private ProtoBufSerializer protobufserializer = new ProtoBufSerializer();
         private XmlSerializer xmlserializer = new XmlSerializer();
 
@@ -124,10 +126,14 @@ namespace PerformanceTest
             }
 
             jsonnetserializer.SerializeToString(obj);
+            textjsonserializer.SerializeToString(obj);
+
             using (MemoryStream mem = new MemoryStream())
             {
                 protobufserializer.Serialize(obj, mem);
             }
+
+
             xmlserializer.SerializeToString(obj);
 
             var keys = serializer.Keys.ToList();
@@ -206,6 +212,15 @@ namespace PerformanceTest
                 }, runs);
             };
 
+            serializer["TextJson"].Act = () =>
+            {
+                GC.Collect(2, GCCollectionMode.Forced, blocking: true);
+                serializer["TextJson"].Score = Helper.AverageRuntime(() =>
+                {
+                    textjsonserializer.SerializeToString(obj);
+                }, runs);
+            };
+
             serializer["Xml"].Act = () =>
             {
                 GC.Collect(2, GCCollectionMode.Forced, blocking: true);
@@ -273,6 +288,7 @@ namespace PerformanceTest
             }
 
             var jsonnetSerializedText = jsonnetserializer.SerializeToString(obj);
+            var textjsonSerializedText = textjsonserializer.SerializeToString(obj);
             var xmlSerializedText = xmlserializer.SerializeToString(obj);
             using (MemoryStream mem = new MemoryStream())
             {
@@ -350,6 +366,15 @@ namespace PerformanceTest
                 serializer["Json"].Score = Helper.AverageRuntime(() =>
                 {
                     jsonnetserializer.DeserializeFromString(jsonnetSerializedText, objType);
+                }, runs);
+            };
+
+            serializer["TextJson"].Act = () =>
+            {
+                GC.Collect(2, GCCollectionMode.Forced, blocking: true);
+                serializer["TextJson"].Score = Helper.AverageRuntime(() =>
+                {
+                    textjsonserializer.DeserializeFromString(textjsonSerializedText, objType);
                 }, runs);
             };
 

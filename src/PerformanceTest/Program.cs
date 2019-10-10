@@ -16,6 +16,7 @@ namespace PerformanceTest
             SerializerFactory.AddSerializer(new NETSerializer(instance), "NET");
             SerializerFactory.AddSerializer<JilSerializer>("jil");
             SerializerFactory.AddSerializer<JsonNetSerializer>("jsonNet");
+            SerializerFactory.AddSerializer<TextJsonSerializer>("textjson");
             SerializerFactory.AddSerializer<ProtoBufSerializer>("ProtoBuf");
 
 
