@@ -46,6 +46,17 @@ namespace Es.Serializer
         /// Gets the specified alias.
         /// </summary>
         /// <param name="alias">The alias.</param>
+        /// <param name="serializer">SerializerBase</param>
+        /// <returns>SerializerBase.</returns>
+        public static bool TryGetValue(string alias, out SerializerBase serializer)
+        {
+            return _objectSerializerCache.TryGetValue(alias, out serializer);
+        }
+
+        /// <summary>
+        /// Gets the specified alias.
+        /// </summary>
+        /// <param name="alias">The alias.</param>
         /// <returns>SerializerBase.</returns>
         public static SerializerBase Get(string alias)
         {
