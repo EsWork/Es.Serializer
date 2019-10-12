@@ -12,6 +12,7 @@ namespace Es.Serializer
         private static readonly Dictionary<string, SerializerBase> _objectSerializerCache;
 
         private static SerializerBase _default;
+        private static SerializerBase _defaultJson;
 
         /// <summary>
         /// Initializes static members of the <see cref="SerializerFactory"/> class.
@@ -82,6 +83,14 @@ namespace Es.Serializer
         }
 
         /// <summary>
+        /// Gets the default JsonSerializer.
+        /// </summary>
+        /// <value>The default.</value>
+        public static SerializerBase DefaultJsonSerializer {
+            get { return _defaultJson; }
+        }
+
+        /// <summary>
         /// Sets the default.
         /// </summary>
         /// <param name="def">The definition.</param>
@@ -97,6 +106,24 @@ namespace Es.Serializer
             }
             while (currentValue != oldValue);
             return _default;
+        }
+
+        /// <summary>
+        /// Sets the DefaultJsonSerializer.
+        /// </summary>
+        /// <param name="def">The definition.</param>
+        /// <returns>SerializerBase.</returns>
+        public static SerializerBase SetDefaultJsonSerializer(SerializerBase def)
+        {
+            SerializerBase oldValue, currentValue;
+            currentValue = _defaultJson;
+            do
+            {
+                oldValue = currentValue;
+                currentValue = Interlocked.CompareExchange(ref _defaultJson, def, oldValue);
+            }
+            while (currentValue != oldValue);
+            return _defaultJson;
         }
 
         /// <summary>
