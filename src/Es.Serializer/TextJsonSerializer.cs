@@ -70,11 +70,8 @@ namespace Es.Serializer
 
         public override object Deserialize(Stream stream, Type type)
         {
-            using (var mem = new MemoryStream())
-            {
-                stream.CopyTo(mem);
-                return Deserialize(mem.ToArray(), type);
-            }
+            return JsonSerializer.DeserializeAsync(stream, type, _readerOptions)
+                .GetAwaiter().GetResult();
         }
 
         public override object Deserialize(byte[] data, Type type)
