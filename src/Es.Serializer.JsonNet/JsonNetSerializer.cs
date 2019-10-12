@@ -18,8 +18,8 @@ namespace Es.Serializer
         /// </summary>
         public static JsonNetSerializer Instance = new JsonNetSerializer();
 
-        private readonly JsonSerializerSettings _deserializeSetting;
-        private readonly JsonSerializerSettings _serializeSetting;
+        private readonly JsonSerializerSettings _readerOptions;
+        private readonly JsonSerializerSettings _writerOptions;
 
         public JsonNetSerializer() : this(_format)
         {
@@ -39,15 +39,15 @@ namespace Es.Serializer
         {
         }
 
-        public JsonNetSerializer(JsonSerializerSettings serializeSetting, JsonSerializerSettings deserializeSetting)
+        public JsonNetSerializer(JsonSerializerSettings writerOptions, JsonSerializerSettings readerOptions)
         {
-            _serializeSetting = serializeSetting ?? throw new ArgumentNullException(nameof(serializeSetting));
-            _deserializeSetting = deserializeSetting ?? throw new ArgumentNullException(nameof(deserializeSetting));
+            _writerOptions = writerOptions ?? throw new ArgumentNullException(nameof(writerOptions));
+            _readerOptions = readerOptions ?? throw new ArgumentNullException(nameof(readerOptions));
         }
 
         public override object Deserialize(TextReader reader, Type type)
         {
-            JsonSerializer serializer = JsonSerializer.Create(_deserializeSetting);
+            JsonSerializer serializer = JsonSerializer.Create(_readerOptions);
             return serializer.Deserialize(reader, type);
         }
 
@@ -67,12 +67,12 @@ namespace Es.Serializer
 
         public override object DeserializeFromString(string serializedText, Type type)
         {
-            return JsonConvert.DeserializeObject(serializedText, type, _deserializeSetting);
+            return JsonConvert.DeserializeObject(serializedText, type, _readerOptions);
         }
 
         public override void Serialize(object value, TextWriter writer)
         {
-            JsonSerializer serializer = JsonSerializer.Create(_serializeSetting);
+            JsonSerializer serializer = JsonSerializer.Create(_writerOptions);
             serializer.Serialize(writer, value);
         }
 
@@ -93,7 +93,7 @@ namespace Es.Serializer
 
         public override string SerializeToString(object value)
         {
-            return JsonConvert.SerializeObject(value, _serializeSetting);
+            return JsonConvert.SerializeObject(value, _writerOptions);
         }
     }
 }
