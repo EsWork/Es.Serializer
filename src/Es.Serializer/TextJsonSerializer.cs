@@ -91,7 +91,11 @@ namespace Es.Serializer
 
         public override void Serialize(object value, Stream output)
         {
-            using (var writer = new Utf8JsonWriter(output))
+            using (var writer = new Utf8JsonWriter(output, new JsonWriterOptions
+            {
+                Indented = _serializeOptions.WriteIndented,
+                Encoder = _serializeOptions.Encoder
+            }))
             {
                 JsonSerializer.Serialize(writer, value, value.GetType(), _writerOptions);
             }
