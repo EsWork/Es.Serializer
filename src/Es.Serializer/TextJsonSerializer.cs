@@ -93,8 +93,8 @@ namespace Es.Serializer
         {
             using (var writer = new Utf8JsonWriter(output, new JsonWriterOptions
             {
-                Indented = _serializeOptions.WriteIndented,
-                Encoder = _serializeOptions.Encoder
+                Indented = _writerOptions.WriteIndented,
+                Encoder = _writerOptions.Encoder
             }))
             {
                 JsonSerializer.Serialize(writer, value, value.GetType(), _writerOptions);
