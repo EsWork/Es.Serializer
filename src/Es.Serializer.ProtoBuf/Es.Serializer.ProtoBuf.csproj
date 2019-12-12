@@ -4,7 +4,7 @@
   <PropertyGroup>
     <AssemblyName>Es.Serializer.ProtoBuf</AssemblyName>
     <AssemblyTitle>Es.Serializer.ProtoBuf</AssemblyTitle>
-    <TargetFrameworks>net45;net461;netstandard2.0;netstandard2.1;netcoreapp3.0;</TargetFrameworks>
+    <TargetFrameworks>net45;net461;netstandard2.0;netstandard2.1;netcoreapp3.0;netcoreapp3.1;</TargetFrameworks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <PackageId>Es.Serializer.ProtoBuf</PackageId>
   </PropertyGroup>
@@ -14,6 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="protobuf-net" Version="2.4.1" />
+    <PackageReference Include="protobuf-net" Version="2.4.4" />
   </ItemGroup>
 </Project>

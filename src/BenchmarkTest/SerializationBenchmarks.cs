@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Text.Json;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 using Es.Serializer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace BenchmarkTest
 {
-    [ClrJob, CoreJob]
+    [SimpleJob(RuntimeMoniker.Net461 )]
+    [SimpleJob(RuntimeMoniker.NetCoreApp31)]
     [MemoryDiagnoser]
     public class SerializationBenchmarks
     {

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Es.Serializer.Jil</AssemblyName>
     <AssemblyTitle>Es.Serializer.Jil</AssemblyTitle>
-    <TargetFrameworks>net45;net461;netstandard2.0;netstandard2.1;netcoreapp3.0;</TargetFrameworks>
+    <TargetFrameworks>net45;net461;netstandard2.0;netstandard2.1;netcoreapp3.0;netcoreapp3.1;</TargetFrameworks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <PackageId>Es.Serializer.Jil</PackageId>
   </PropertyGroup>
