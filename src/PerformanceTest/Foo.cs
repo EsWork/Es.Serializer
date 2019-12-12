@@ -4,7 +4,7 @@ using ProtoBuf;
 
 namespace PerformanceTest
 {
-#if NETFULL || NETCOREAPP3_0
+#if NETFULL || NETCOREAPP3_1
 
     [Serializable]
 #endif
@@ -45,7 +45,7 @@ namespace PerformanceTest
         }
     }
 
-#if NETFULL || NETCOREAPP3_0
+#if NETFULL || NETCOREAPP3_1
 
     [Serializable]
 #endif

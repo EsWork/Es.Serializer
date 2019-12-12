@@ -32,7 +32,7 @@ namespace PerformanceTest
         #endif
         };
 
-#if NETFULL || NETCOREAPP3_0
+#if NETFULL || NETCOREAPP3_1
         private JilSerializer jilserializer = new JilSerializer();
         private BinarySerializer binaryserializer = new BinarySerializer();
         private DataContractSerializer datacontractserializer = new DataContractSerializer();
@@ -96,7 +96,7 @@ namespace PerformanceTest
         {
             //warm-up
 
-#if NETFULL || NETCOREAPP3_0
+#if NETFULL || NETCOREAPP3_1
             jilserializer.SerializeToString(obj);
             using (MemoryStream mem = new MemoryStream())
             {
@@ -138,7 +138,7 @@ namespace PerformanceTest
 
             var keys = serializer.Keys.ToList();
 
-#if NETFULL || NETCOREAPP3_0
+#if NETFULL || NETCOREAPP3_1
             serializer["Jil"].Act = () =>
             {
                 GC.Collect(2, GCCollectionMode.Forced, blocking: true);
@@ -256,7 +256,7 @@ namespace PerformanceTest
 
             byte[] protobufData, binaryData, dataContractData, soapData, netData;
 
-#if NETFULL || NETCOREAPP3_0
+#if NETFULL || NETCOREAPP3_1
             var jilSerializedText = jilserializer.SerializeToString(obj);
             using (MemoryStream mem = new MemoryStream())
             {
@@ -298,7 +298,7 @@ namespace PerformanceTest
 
             var keys = serializer.Keys.ToList();
 
-#if NETFULL || NETCOREAPP3_0
+#if NETFULL || NETCOREAPP3_1
             serializer["Jil"].Act = () =>
                       {
                           GC.Collect(2, GCCollectionMode.Forced, blocking: true);

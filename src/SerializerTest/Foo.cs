@@ -4,7 +4,7 @@ using ProtoBuf;
 
 namespace SerializerTest
 {
-#if NETFULL || NETCOREAPP3_0
+#if NETFULL || NETCOREAPP3_1
     [Serializable]
 #endif
     [ DataContract, ProtoContract]
@@ -35,7 +35,7 @@ namespace SerializerTest
         }
     }
 
-#if NETFULL || NETCOREAPP3_0
+#if NETFULL || NETCOREAPP3_1
     [Serializable]
 #endif
     [DataContract, ProtoContract]

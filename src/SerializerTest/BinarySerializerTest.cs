@@ -4,7 +4,7 @@ using Xunit;
 
 namespace SerializerTest
 {
-#if NETFULL || NETCOREAPP3_0
+#if NETFULL || NETCOREAPP3_1
     public class BinarySerializerTest
     {
 

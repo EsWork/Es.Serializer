@@ -6,7 +6,7 @@ using ProtoBuf;
 
 namespace PerformanceTest
 {
-#if NETFULL || NETCOREAPP3_0
+#if NETFULL || NETCOREAPP3_1
     [Serializable]
 #endif
     [ProtoContract]
@@ -14,7 +14,7 @@ namespace PerformanceTest
     {
 
         private static ProtoBufSerializer _protoBufSerializer = new ProtoBufSerializer();
-#if NETFULL || NETCOREAPP3_0
+#if NETFULL || NETCOREAPP3_1
         [NonSerialized]
 #endif
         [IgnoreDataMember, JsonIgnore, ProtoIgnore]
