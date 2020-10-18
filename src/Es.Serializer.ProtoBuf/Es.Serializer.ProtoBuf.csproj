@@ -22,7 +22,7 @@
 			   OR '$(TargetFramework)' == 'netstandard2.1' 
 			   OR '$(TargetFramework)' == 'netcoreapp3.0' 
 			   OR '$(TargetFramework)' == 'netcoreapp3.1'">
-		<PackageReference Include="protobuf-net" Version="3.0.29" />
+		<PackageReference Include="protobuf-net" Version="3.0.52" />
 	</ItemGroup>
 
   <ItemGroup>
