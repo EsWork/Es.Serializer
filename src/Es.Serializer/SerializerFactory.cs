@@ -24,7 +24,9 @@ namespace Es.Serializer
 #if NETFULL
                 ["soap"] = SoapSerializer.Instance,
 #endif
+#if !NET5_0
                 ["binary"] = BinarySerializer.Instance,
+#endif
                 ["DataContract"] = DataContractSerializer.Instance,
                 ["dc"] = DataContractSerializer.Instance,
                 ["xml"] = XmlSerializer.Instance
@@ -37,8 +39,10 @@ namespace Es.Serializer
         /// Gets the alias.
         /// </summary>
         /// <value>The alias.</value>
-        public static IEnumerable<string> Alias {
-            get {
+        public static IEnumerable<string> Alias
+        {
+            get
+            {
                 return _objectSerializerCache.Keys;
             }
         }
@@ -78,7 +82,8 @@ namespace Es.Serializer
         /// Gets the default.
         /// </summary>
         /// <value>The default.</value>
-        public static SerializerBase Default {
+        public static SerializerBase Default
+        {
             get { return _default; }
         }
 
@@ -86,7 +91,8 @@ namespace Es.Serializer
         /// Gets the default JsonSerializer.
         /// </summary>
         /// <value>The default.</value>
-        public static SerializerBase DefaultJsonSerializer {
+        public static SerializerBase DefaultJsonSerializer
+        {
             get { return _defaultJson; }
         }
 

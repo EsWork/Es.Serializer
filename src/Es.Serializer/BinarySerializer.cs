@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !NET5_0
+using System;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -121,3 +122,4 @@ namespace Es.Serializer
         }
     }
 }
+#endif

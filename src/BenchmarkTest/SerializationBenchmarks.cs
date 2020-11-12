@@ -8,7 +8,7 @@ using Newtonsoft.Json.Converters;
 
 namespace BenchmarkTest
 {
-    [SimpleJob(RuntimeMoniker.Net461 )]
+    [SimpleJob(RuntimeMoniker.Net461)]
     [SimpleJob(RuntimeMoniker.NetCoreApp31)]
     [MemoryDiagnoser]
     public class SerializationBenchmarks
@@ -26,7 +26,9 @@ namespace BenchmarkTest
         private TextJsonSerializer textJsonSerializer;
         private JsonNetSerializer jsonNetSerializer;
         private DataContractSerializer dataContractSerializer;
+#if !NET5_0
         private BinarySerializer binarySerializer;
+#endif
         private ProtoBufSerializer protoBufSerializer;
         private JilSerializer jilSerializer;
         private NETSerializer netSerializer;
@@ -105,7 +107,7 @@ namespace BenchmarkTest
             };
 
             jsonFromString = JsonConvert.SerializeObject(serializeToStringObject, jsonNetOptions);
-          
+
             serializeToStringClass = (TestClass)JsonConvert.DeserializeObject(jsonFromString, typeof(TestClass), jsonNetOptions);
 
             jsonNetSerializer = new JsonNetSerializer(jsonNetOptions);
@@ -113,14 +115,18 @@ namespace BenchmarkTest
             jilSerializer = new JilSerializer();
 
             dataContractSerializer = new DataContractSerializer();
+#if !NET5_0
             binarySerializer = new BinarySerializer();
+#endif
             protoBufSerializer = new ProtoBufSerializer();
 
             NetSerializer.Serializer instance = new NetSerializer.Serializer(new[] { typeof(TestClass) });
             netSerializer = new NETSerializer(instance);
 
             dataContractFromString = dataContractSerializer.SerializeToString(serializeToStringClass);
+#if !NET5_0
             binaryFromString = binarySerializer.SerializeToString(serializeToStringClass);
+#endif
             protoBufFromString = protoBufSerializer.SerializeToString(serializeToStringClass);
             netSerializerFromString = netSerializer.SerializeToString(serializeToStringClass);
 
@@ -151,12 +157,13 @@ namespace BenchmarkTest
         {
             dataContractSerializer.SerializeToString(serializeToStringClass);
         }
-
+#if !NET5_0
         [Benchmark]
         public void SerializeToString_Binary()
         {
             binarySerializer.SerializeToString(serializeToStringClass);
         }
+#endif
 
         [Benchmark]
         public void SerializeToString_ProtoBuf()
@@ -193,12 +200,14 @@ namespace BenchmarkTest
         {
             dataContractSerializer.DeserializeFromString<TestClass>(dataContractFromString);
         }
-
+#if !NET5_0
         [Benchmark]
         public void DeserializeFromString_Binary()
         {
             binarySerializer.DeserializeFromString<TestClass>(binaryFromString);
         }
+
+#endif
 
         [Benchmark]
         public void DeserializeFromString_ProtoBuf()

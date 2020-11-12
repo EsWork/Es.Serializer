@@ -35,11 +35,18 @@ namespace Es.Serializer
         public TextJsonSerializer(bool writeIndented = false) : this(new JsonSerializerOptions
         {
             WriteIndented = writeIndented,
-            IgnoreNullValues = true,
+            
             AllowTrailingCommas = true,
             PropertyNameCaseInsensitive = true,
             ReadCommentHandling = JsonCommentHandling.Skip,
-            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+#if NET5_0
+            IncludeFields = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.WriteAsString,
+            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault,
+#else
+            IgnoreNullValues = true,
+#endif
         })
         {
         }
