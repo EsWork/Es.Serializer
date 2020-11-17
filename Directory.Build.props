@@ -1,0 +1,50 @@
+<Project>
+
+  <PropertyGroup>
+
+    <Version>$(Ver)</Version>
+    <PackageVersion>$(Ver)</PackageVersion>
+    <Copyright>2019 Es Inc.</Copyright>
+    <Authors>EasyWork;v.la@live.cn</Authors>
+    <Description>Es.Serializer</Description>
+    <Product>Es.Serializer</Product>
+
+
+    <PackageOutputPath>$(MSBuildThisFileDirectory)/artifacts</PackageOutputPath>
+    <PackageTags>Es.Serializer</PackageTags>
+    <LangVersion>latest</LangVersion>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageIcon>icon.png</PackageIcon>
+
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseType>MIT</PackageLicenseType>
+
+    <RepositoryUrl>https://github.com/EsWork/Es.Serializer</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryBranch>master</RepositoryBranch>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+
+    <Version>$(Ver)</Version>
+    <PackageVersion>$(Ver)</PackageVersion>
+
+    <Description>Simple and easy to use the Serializer class library package</Description>
+    <Product>EsWork Serializer Library</Product>
+
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' != 'Debug' ">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SignAssembly>True</SignAssembly>
+    <DelaySign>False</DelaySign>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)/build/Es.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)/build/icon.png" Pack="true" PackagePath=""/>
+  </ItemGroup>
+
+</Project>

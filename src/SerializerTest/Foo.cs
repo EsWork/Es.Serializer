@@ -4,10 +4,10 @@ using ProtoBuf;
 
 namespace SerializerTest
 {
-#if NETFULL || NETCOREAPP3_1
+#if NETFULL || NETCOREAPP3_1 || NET5_0
     [Serializable]
 #endif
-    [ DataContract, ProtoContract]
+    [DataContract, ProtoContract]
     public class Foo : INetMessage
     {
         [DataMember, ProtoMember(1)]
@@ -35,7 +35,7 @@ namespace SerializerTest
         }
     }
 
-#if NETFULL || NETCOREAPP3_1
+#if NETFULL || NETCOREAPP3_1 || NET5_0
     [Serializable]
 #endif
     [DataContract, ProtoContract]

@@ -1,21 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp3.1;net461;net5.0</TargetFrameworks>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFrameworks>netcoreapp3.1;net461;net5.0</TargetFrameworks>
+		<LangVersion>8.0</LangVersion>
+	</PropertyGroup>
 
 
-  <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
+	</ItemGroup>
 
 
-  <ItemGroup>
-    <ProjectReference Include="..\Es.Serializer.Jil\Es.Serializer.Jil.csproj" />
-    <ProjectReference Include="..\Es.Serializer.JsonNet\Es.Serializer.JsonNet.csproj" />
-    <ProjectReference Include="..\Es.Serializer.NetSerializer\Es.Serializer.NetSerializer.csproj" />
-    <ProjectReference Include="..\Es.Serializer.ProtoBuf\Es.Serializer.ProtoBuf.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Es.Serializer.Jil\Es.Serializer.Jil.csproj" />
+		<ProjectReference Include="..\Es.Serializer.JsonNet\Es.Serializer.JsonNet.csproj" />
+		<ProjectReference Include="..\Es.Serializer.NetSerializer\Es.Serializer.NetSerializer.csproj" />
+		<ProjectReference Include="..\Es.Serializer.ProtoBuf\Es.Serializer.ProtoBuf.csproj" />
+	</ItemGroup>
 
 </Project>

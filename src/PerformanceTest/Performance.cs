@@ -23,13 +23,15 @@ namespace PerformanceTest
             {"Protobuf",new CallAct()},
             {"Xml",new CallAct()},
             {"Jil",new CallAct()},
+#if !NET5_0
             {"Binary",new CallAct()},
+#endif
             {"DataContract",new CallAct()},
             {"NET",new CallAct()},
-        #if NETFULL
+#if NETFULL
             {"Soap",new CallAct()},
            
-        #endif
+#endif
         };
 
 #if NETFULL || NETCOREAPP3_1

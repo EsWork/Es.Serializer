@@ -8,8 +8,6 @@ using Newtonsoft.Json.Converters;
 
 namespace BenchmarkTest
 {
-    [SimpleJob(RuntimeMoniker.Net461)]
-    [SimpleJob(RuntimeMoniker.NetCoreApp31)]
     [MemoryDiagnoser]
     public class SerializationBenchmarks
     {
