@@ -43,7 +43,7 @@ namespace Es.Serializer
 #if NET5_0
             IncludeFields = true,
             NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString,
-            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault,
+            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
 #else
             IgnoreNullValues = true,
 #endif
